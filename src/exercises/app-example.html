@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Observables</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+    <style>
+        .item-pill {
+            margin-right: 10px;
+            margin-bottom: 5px;
+            width: 30px;
+            padding: 6px;
+            border-radius: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .red {
+            background: #c95d63;
+            color: #fff;
+        }
+
+        .blue {
+            background: #496ddb;
+            color: #fff;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>State Service</h1>
+
+        <p>
+            This time we want to manage some application state. Whenever the user clicks the Initiate button, we will increment a number.
+        </p>
+
+        <p>
+            We want to expose the changes as events that different components can subscribe to. We can use a Subject for this. A Subject
+            is both an Observer and an Observable. The following service encapsulates the functionality for adding numbers
+            and exposing both the raw data and also an Observable which components can subscribe to.
+        </p>
+
+        <pre>
+class StateService {
+    private state: number[] = [];
+    private dataSource = new Subject&lt;number>();
+    
+    increment() {
+        ...
+    }
+    
+    getDataSource(): Observable&lt;number> {
+        return this.dataSource.asObservable();
+    }
+}
+        </pre>
+
+        <p>There are two subscribing 'components' - 1 displays all numbers and the other only displays even numbers.</p>
+
+        <pre>
+const dataSource = stateService.getDataSource();
+
+const subscription1 = dataSource.subscribe((value: number) => {
+    output.innerHTML += `&lt;span class='item-pill red'>${value}</span>`;
+});
+
+const subscription2 = dataSource
+    .filter(e => e % 2 == 0)
+    .subscribe((value: number) => {
+    output2.innerHTML += `&lt;span class='item-pill blue'>${value}</span>`;
+});
+</pre>
+        <button id="myButton">Initiate</button>
+
+        <!-- <h4>
+            <a href="#">Next: ... >></a>
+        </h4> -->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <samp id="output"></samp>
+                </div>
+                <div class="col-md-5 col-md-offset-2">
+                    <samp id="output2"></samp>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+    <script src="/dist/appExamplePage.js"> </script>
+
+
+</body>
+
+</html>

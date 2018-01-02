@@ -8,7 +8,8 @@ module.exports = {
     customObserverPage: "./scripts/observer.ts",
     multipleObserversPage: "./scripts/observers.ts",
     createObservablePage: "./scripts/create-observable.ts",
-    intervalOperatorPage: "./scripts/interval-operator.ts"
+    intervalOperatorPage: "./scripts/interval-operator.ts",
+    appExamplePage: "./scripts/app-example.ts"
   },
   module: {
     rules: [
