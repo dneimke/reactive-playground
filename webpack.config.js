@@ -7,7 +7,8 @@ module.exports = {
     fromEventPage: "./scripts/from-event.ts",
     customObserverPage: "./scripts/observer.ts",
     multipleObserversPage: "./scripts/observers.ts",
-    createObservablePage: "./scripts/create-observable.ts"
+    createObservablePage: "./scripts/create-observable.ts",
+    intervalOperatorPage: "./scripts/interval-operator.ts"
   },
   module: {
     rules: [

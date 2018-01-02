@@ -16,6 +16,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
         crossorigin="anonymous">
 
+    <style>
+        .digit-pill {
+            margin-right: 10px;
+            margin-bottom: 5px;
+            width: 30px;
+            padding: 6px;
+            background: #bada55;
+            color: #193549;
+            border-radius: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -23,21 +37,21 @@
         <h1>Observable Creation</h1>
 
         <p>
-            We now know a bit more about
-            <a href="./observers.html">Observers</a>, but what about Observables, where do they come and can we create them?
+            In the
+            <a href="./create.html">previous example</a>, we created an Observable based on a range. We saw that the numbers 1..100 appeared on the
+            page as soon as we clicked Initiate.
         </p>
 
         <p>
-            This demo uses fromEvent and range operators to create observables from events and from a range. The
+            In this demo we will use the interval operator to create our Observable. This will emit events at a given interval which
+            gives the appearance of items being added gradually rather than all 100 items appearing instantaneously. The
             <a href="http://reactivex.io/documentation/operators.html#categorized">ReactiveX operators page</a> lists the various creation operators.
         </p>
 
         <pre>
-const source = fromEvent(btn, "click");
-
-...
-
-const source = range(1, 100);
+const source = Rx.Observable.interval(50)
+        .take(100)
+        .map(e => e + 1);
 
 source.subscribe({
     next(value: number) {
@@ -55,7 +69,7 @@ source.subscribe({
         <button id="myButton">Initiate</button>
 
         <h4>
-            <a href="./interval.html">Next: Interval >></a>
+            <a href="#">Next: ... >></a>
         </h4>
 
         <div class="container">
@@ -70,7 +84,7 @@ source.subscribe({
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 
-    <script src="/dist/createObservablePage.js"> </script>
+    <script src="/dist/intervalOperatorPage.js"> </script>
 
 
 </body>

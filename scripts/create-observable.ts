@@ -1,7 +1,6 @@
 import { fromEvent } from "rxjs/observable/fromEvent";
 import { range } from "rxjs/observable/range";
 import { Subscription } from "rxjs/Subscription";
-import { Observer } from "rxjs/Observer";
 
 export class CreateObserver {
   subscription: Subscription;
