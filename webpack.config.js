@@ -5,7 +5,8 @@ module.exports = {
   entry: {
     homePage: "./main.ts",
     fromEventPage: "./scripts/from-event.ts",
-    customObserverPage: "./scripts/observer.ts"
+    customObserverPage: "./scripts/observer.ts",
+    multipleObserversPage: "./scripts/observers.ts"
   },
   module: {
     rules: [

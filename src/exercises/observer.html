@@ -28,9 +28,10 @@
             an custom class to contain the Observer logic.</p>
 
         <pre>
-class ConsoleObserver implements Observer<string> {
+class OutputObserver implements Observer<string> {
+    constructor(private output: HTMLElement) {}
     next(value: string) {
-        console.info("Clicked: ", value);
+        this.output.innerHTML += `Clicked: ${value}&lt;br />`;
     }
     error(err: any) {}
     complete() {}
@@ -41,7 +42,7 @@ subscribe(btn: HTMLButtonElement) {
     const source = fromEvent(btn, "click").map(
         (event: Event) => `Event time: ${event.timeStamp}`
     );
-    this.subscription = source.subscribe(new ConsoleObserver());
+    this.subscription = source.subscribe(new OutputObserver());
 }
         </pre>
 
@@ -50,6 +51,10 @@ subscribe(btn: HTMLButtonElement) {
 
         <button id="myButton">Initiate</button>
         <button id="subscribeButton">Unsubscribe</button>
+
+        <h4>
+            <a href="./observers.html">Next: Multiple Subscriptions >></a>
+        </h4>
 
         <samp id="output"></samp>
 
