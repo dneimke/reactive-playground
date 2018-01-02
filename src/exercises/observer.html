@@ -20,43 +20,39 @@
 
 <body>
     <div class="container">
-        <h1>Subscriptions</h1>
+        <h1>Observers</h1>
 
-        <p>Uses
-            <code>Observable.fromEvent</code> and the
-            <code>map</code> operator to capture button click events and log them to the console window.</p>
+        <p>
+            The
+            <a href='./subscriptions.html'>Subscriptions page</a> showed how to create a subscription using an inlined observer definition. This page uses
+            an custom class to contain the Observer logic.</p>
 
         <pre>
-const btn = document.getElementById(buttonElementId) as HTMLButtonElement;
-this.subscribe(btn);
-
-const subscribeButton = document.getElementById(
-    subscribeButtonId
-) as HTMLButtonElement;
-
-fromEvent(subscribeButton, "click").subscribe(e => {
-    if (this.isSubscribed) {
-        this.unsubscribe();
-        subscribeButton.innerText = "Subscribe";
-    } else {
-        this.subscribe(btn);
-        subscribeButton.innerText = "Unsubscribe";
+class ConsoleObserver implements Observer<string> {
+    next(value: string) {
+        console.info("Clicked: ", value);
     }
-    this.isSubscribed = !this.isSubscribed;
-});        
-    </pre>
+    error(err: any) {}
+    complete() {}
+}   
 
-        <p>Click subscribe/unsubscribe to toggle the subscription. See what happens when you click the Initiate button when
+
+subscribe(btn: HTMLButtonElement) {
+    const source = fromEvent(btn, "click").map(
+        (event: Event) => `Event time: ${event.timeStamp}`
+    );
+    this.subscription = source.subscribe(new ConsoleObserver());
+}
+        </pre>
+
+        <p>Click subscribe/unsubscribe to toggle the subscription. Look at what happens when you click the Initiate button when
             you are subscribed and unsubscribed.</p>
 
         <button id="myButton">Initiate</button>
         <button id="subscribeButton">Unsubscribe</button>
 
-        <h4>
-            <a href="./observer.html">Next: Observers >></a>
-        </h4>
-
         <samp id="output"></samp>
+
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -65,7 +61,7 @@ fromEvent(subscribeButton, "click").subscribe(e => {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 
-    <script src="/dist/fromEventPage.js"> </script>
+    <script src="/dist/customObserverPage.js"> </script>
 
 
 </body>

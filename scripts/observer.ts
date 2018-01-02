@@ -1,15 +1,15 @@
 import { fromEvent } from "rxjs/observable/fromEvent";
 import "rxjs/add/operator/map";
 import { Subscription } from "rxjs/Subscription";
+import { Observer } from "rxjs/Observer";
 
-export class FromEvent {
+export class CustomObserver {
   isSubscribed = true;
   subscription: Subscription;
   output: HTMLElement;
 
   constructor(buttonElementId: string, subscribeButtonId: string) {
     this.output = document.getElementById("output");
-
     const btn = document.getElementById(buttonElementId) as HTMLButtonElement;
     this.subscribe(btn);
 
@@ -30,13 +30,10 @@ export class FromEvent {
   }
 
   subscribe(btn: HTMLButtonElement) {
-    let that = this;
     const source = fromEvent(btn, "click").map(
       (event: Event) => `Event time: ${event.timeStamp}`
     );
-    this.subscription = source.subscribe(
-      value => (that.output.innerHTML += `Clicked: ${value}<br />`)
-    );
+    this.subscription = source.subscribe(new OutputObserver(this.output));
   }
 
   unsubscribe() {
@@ -44,10 +41,19 @@ export class FromEvent {
   }
 }
 
-export class FromEventPageRunner {
+class OutputObserver implements Observer<string> {
+  constructor(private output: HTMLElement) {}
+  next(value: string) {
+    this.output.innerHTML += `Clicked: ${value}<br />`;
+  }
+  error(err: any) {}
+  complete() {}
+}
+
+export class FromObserverPageRunner {
   constructor(elementId: string, subscribeButtonId: string) {
-    const runner = new FromEvent(elementId, subscribeButtonId);
+    const runner = new CustomObserver(elementId, subscribeButtonId);
   }
 }
 
-let runner = new FromEventPageRunner("myButton", "subscribeButton");
+let runner = new FromObserverPageRunner("myButton", "subscribeButton");

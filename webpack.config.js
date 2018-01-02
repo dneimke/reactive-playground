@@ -4,7 +4,8 @@ const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 module.exports = {
   entry: {
     homePage: "./main.ts",
-    fromEventPage: "./scripts/from-event.ts"
+    fromEventPage: "./scripts/from-event.ts",
+    customObserverPage: "./scripts/observer.ts"
   },
   module: {
     rules: [
