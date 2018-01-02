@@ -6,7 +6,8 @@ module.exports = {
     homePage: "./main.ts",
     fromEventPage: "./scripts/from-event.ts",
     customObserverPage: "./scripts/observer.ts",
-    multipleObserversPage: "./scripts/observers.ts"
+    multipleObserversPage: "./scripts/observers.ts",
+    createObservablePage: "./scripts/create-observable.ts"
   },
   module: {
     rules: [

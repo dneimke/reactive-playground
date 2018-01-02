@@ -20,48 +20,41 @@
 
 <body>
     <div class="container">
-        <h1>Observers</h1>
+        <h1>Observable Creation</h1>
 
         <p>
-            Now that we've got our
-            <a href='./subscriptions.html'>Observable</a> and we know how to Subscribe with
-            <a href='./observer.html'>Observer and manage Subscriptions</a>, it's easy to think about how we can have multiple subscriptions.</p>
+            We now know a bit more about
+            <a href="./observers.html">Observers</a>, but what about Observables, where do they come and can we create them?
+        </p>
 
         <pre>
-subscribe(btn: HTMLButtonElement) {
-    const source = fromEvent(btn, "click").map(
-        (event: Event) => `Event time: ${event.timeStamp}`
-    );
-    this.subscription = source.subscribe(new OutputObserver(this.output));
-    this.subscription2 = source.subscribe(
-        new ColoredOutputObserver(this.output2)
-    );
-}
+const source = fromEvent(btn, "click");
 
-unsubscribe() {
-    this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
-}
+...
+
+const source = range(1, 100);
+
+source.subscribe({
+    next(value: number) {
+        output.innerText += value === 100 ? value : `${value},`;
+
+        if (value % 25 === 0) {
+            output.innerHTML += `&lt;br />`;
+        }
+    }
+});
         </pre>
 
-        <p>When you click initiate, the output will appear in multiple destinations due to multiple subscriptions.</p>
+        <p>When you click initiate, the output will fill with numbers from a sequence using the range() operator.</p>
 
         <button id="myButton">Initiate</button>
-        <button id="subscribeButton">Unsubscribe</button>
 
         <h4>
-            <a href="./create.html">Next: Creating Observables >></a>
+            <a href="#">Next: ... >></a>
         </h4>
 
         <div class="container">
-            <div class="row">
-                <div class="col-md-5">
-                    <samp id="output"></samp>
-                </div>
-                <div class="col-md-5 col-md-offset-2">
-                    <samp id="output2"></samp>
-                </div>
-            </div>
+            <samp id="output"></samp>
         </div>
 
     </div>
@@ -72,7 +65,7 @@ unsubscribe() {
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 
-    <script src="/dist/multipleObserversPage.js"> </script>
+    <script src="/dist/createObservablePage.js"> </script>
 
 
 </body>
