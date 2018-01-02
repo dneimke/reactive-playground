@@ -19,9 +19,17 @@
 </head>
 
 <body>
-    <h1>fromEvent</h1>
+    <h1>Subscriptions</h1>
+
+    <p>Uses
+        <code>Observable.fromEvent</code> and the
+        <code>map</code> operator to capture button click events and log them to the console window.</p>
+
+    <p>Click subscribe/unsubscribe to toggle the subscription. See what happens when you click the Initiate button when you
+        are subscribed and unsubscribed.</p>
 
     <button id="myButton">Initiate</button>
+    <button id="subscribeButton">Unsubscribe</button>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

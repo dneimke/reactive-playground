@@ -21,6 +21,74 @@
 <body>
     <h1>Observables</h1>
 
+    <p>This repository is a place for me to learn about
+        <abbr title="Reactive Extensions for Javascript">Rxjs</abbr> and using Observables.</p>
+
+    <h2>Why Observables?</h2>
+    <p>
+        The broad adoption of web platforms and frameworks such as Angular and Firebase, has meant that Observables are fast becoming
+        the preferred approach to dealing with data sources. Angular and Firebase both use Rxjs as their Observable implementation
+        for the web. The flow-on effect means that we are now seeing that adoption spreading more broadly throughout the
+        component ecosystem.
+    </p>
+    <p>
+        <a href="https://github.com/videogular">Videogular2</a> - a popular Angular module for working with Video uses a reactive approach which is also based on
+        Rxjs. New frameworks which build on top of Rxjs such as
+        <abbr title="Reactive Extensions for Angular">NGRX</abbr> are also coming to the prominence.
+    </p>
+
+    <h2>What are Observables?</h2>
+
+    <p>The
+        <a href="http://reactivex.io/documentation/observable.html">ReactiveX documentation</a> uses the following definition for Observables:</p>
+    <blockquote>
+        <p>An observer subscribes to an Observable. An Observable emits items or sends notifications to its observers by calling
+            the observers’ methods.</p>
+    </blockquote>
+
+    <p>An Observer implements 3 methods which the Observable can call into:</p>
+
+    <ul>
+        <li>next</li>
+        <li>error</li>
+        <li>complete</li>
+    </ul>
+
+    <p>
+        You can create a custom Observer and pass it to the subscribe method of an observable to process events within an observable
+        source.
+    </p>
+
+    <h2>My Approach</h2>
+
+
+    <h2>Pitfalls and Traps</h2>
+
+
+    <h2>Learning Path</h2>
+
+    <p>
+        Here are some of the resources that I used to learn Reactive programming in the order that I suggest consuming them in:
+    </p>
+
+    <p>
+        <dl class="dl-horizontal">
+            <dt>
+                <a href="https://www.pluralsight.com/courses/reactive-programming-rxjs-getting-started">Get Started with Rxjs</a>
+            </dt>
+            <dd>A Pluralsight course by
+                <a href="https://twitter.com/OdeToCode">Scott Allen</a> which teaches the internals of Observables and introduces operators and how to work with
+                Observable streams of data.
+            </dd>
+            <dt>
+                <a href="http://reactive.how/">Reactive.how</a>
+            </dt>
+            <dd>
+                Receive a little tutorial each week which introduces new operators and teaches new techniques.
+            </dd>
+        </dl>
+    </p>
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
