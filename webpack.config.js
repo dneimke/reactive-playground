@@ -9,7 +9,8 @@ module.exports = {
     multipleObserversPage: "./scripts/observers.ts",
     createObservablePage: "./scripts/create-observable.ts",
     intervalOperatorPage: "./scripts/interval-operator.ts",
-    appExamplePage: "./scripts/app-example.ts"
+    appExamplePage: "./scripts/app-example.ts",
+    rotatorPage: "./scripts/rotator-example.ts"
   },
   module: {
     rules: [
