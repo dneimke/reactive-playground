@@ -3,7 +3,8 @@ import { RotatorComponent, IRotatorMessage } from "./rotator";
 
 export class RotatorExample {
   constructor() {
-    const output = document.getElementById("output");
+    const messageOutput = document.getElementById("messageOutput");
+    const timingOutput = document.getElementById("timingOutput");
 
     const btnStart = document.getElementById("btnStart") as HTMLButtonElement;
     const btnPause = document.getElementById("btnPause") as HTMLButtonElement;
@@ -23,8 +24,17 @@ export class RotatorExample {
 
     const component = new RotatorComponent(items);
 
-    component.selectedMessage$.subscribe(message => {
-      output.innerHTML = `${message.content}`;
+    component.selectedMessage$.subscribe((message: IRotatorMessage) => {
+      messageOutput.innerHTML = `
+            <em>${message.content}</em>
+            <p>Start: ${message.start}; End: ${message.end}</p>
+        `;
+
+      timingOutput.innerHTML = `<em>${0}</em>`;
+    });
+
+    component.tick$.subscribe((seconds: number) => {
+      timingOutput.innerHTML = `<em>${seconds}</em>`;
     });
 
     Observable.fromEvent(btnStart, "click").subscribe(e => {

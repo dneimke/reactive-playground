@@ -10,20 +10,36 @@ export class ScrollTimer {
   private source: Observable<number>;
   private subscription: Subscription;
 
-  private current: number;
+  private current: number = 0;
 
   constructor(private lower: number, private upper: number) {
     this.source = this.createSource(lower, upper);
   }
 
   private createSource(lower: number, upper: number): Observable<number> {
+    let that = this;
+    this.lower = lower;
+    this.upper = upper;
+    this.current = this.lower;
     const count = upper - lower;
-    return Observable.interval(1000).takeWhile(n => n <= count);
+    console.info(`[ScrollTimer] Creating source: `, count);
+
+    return Observable.interval(1000).takeWhile(n => {
+      console.info("[ScrollTimer] interval", n, count);
+      return n < count;
+    });
   }
 
   private createRestartSource(): Observable<number> {
-    const count = this.upper - this.current;
-    return Observable.interval(1000).takeWhile(n => n <= count);
+    let that = this;
+    this.lower = this.current;
+    const count = this.upper - this.lower;
+    console.info(`[ScrollTimer] Creating restart source: `, count);
+
+    return Observable.interval(1000).takeWhile(n => {
+      console.info("[ScrollTimer] r.interval", n, count);
+      return n < count;
+    });
   }
 
   public start(): void {
@@ -33,19 +49,22 @@ export class ScrollTimer {
       console.info(`[ScrollTimer] restart`);
       this.source = this.createRestartSource();
       this.isPaused = false;
-    } else {
-      console.info(`[ScrollTimer] start`);
-      this.current = this.lower;
     }
 
-    that.tick$.next(this.current);
-
+    console.info(
+      `[ScrollTimer] create subscription`,
+      this.current,
+      this.lower,
+      this.upper
+    );
     this.subscription = this.source.subscribe({
       next(n: number) {
-        console.info(`[ScrollTimer] tick`);
-        const v = this.lower + n;
+        const currentSeconds = n + 1;
+        const v = that.lower + currentSeconds;
         that.current = v;
-        that.tick$.next(v);
+
+        console.info(`[ScrollTimer] tick`, currentSeconds, v, that.current);
+        that.tick$.next(currentSeconds);
       },
       complete() {
         console.info(`[ScrollTimer] complete`);
@@ -55,11 +74,13 @@ export class ScrollTimer {
   }
 
   public pause(): void {
+    console.info("[ScrollTimer] pause");
     this.subscription.unsubscribe();
     this.isPaused = true;
   }
 
   public stop(): void {
+    console.info("[ScrollTimer] stop");
     this.subscription.unsubscribe();
     this.isPaused = false;
     this.current = 0;

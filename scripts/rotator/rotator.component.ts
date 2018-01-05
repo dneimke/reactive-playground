@@ -9,6 +9,7 @@ export class RotatorComponent {
   private timer: ScrollTimer;
 
   public selectedMessage$ = new Subject<IRotatorMessage>();
+  public tick$ = new Subject<number>();
 
   constructor(private list: IRotatorMessage[]) {
     if (!list || list.length == 0) {
@@ -28,14 +29,22 @@ export class RotatorComponent {
     const message = this.list[this.selectedIndex];
     this.selectedMessage$.next(message);
 
-    this.timer = new ScrollTimer(message.start, message.end);
+    if (!this.timer) {
+      this.timer = new ScrollTimer(message.start, message.end);
+    }
+
     this.timer.complete$.subscribe(() => {
       this.selectedIndex++;
+      console.info("[RotatorComponent] handle complete", this.selectedIndex);
       if (this.selectedIndex < this.list.length) {
         const message = this.list[this.selectedIndex];
         this.selectedMessage$.next(message);
         this.timer.nextMessage(message);
       }
+    });
+
+    this.timer.tick$.subscribe(n => {
+      this.tick$.next(n);
     });
 
     this.timer.start();
@@ -51,6 +60,7 @@ export class RotatorComponent {
     this.timer.stop();
     this.selectedIndex = 0;
     this._isPlaying = false;
+    this.timer = undefined;
   }
 
   back(): void {
@@ -60,7 +70,6 @@ export class RotatorComponent {
         : this.selectedIndex - 1;
     }
     this.timer.stop();
-    this.start();
   }
 
   next(): void {
