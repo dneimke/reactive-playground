@@ -2,6 +2,8 @@ import { Observable } from "rxjs/Observable";
 import { RotatorComponent, IRotatorMessage } from "./rotator";
 
 export class RotatorExample {
+  isComplete: boolean;
+
   constructor() {
     const messageOutput = document.getElementById("messageOutput");
     const timingOutput = document.getElementById("timingOutput");
@@ -33,12 +35,21 @@ export class RotatorExample {
       timingOutput.innerHTML = `<em>${0}</em>`;
     });
 
+    component.completed$.subscribe(() => (this.isComplete = true));
+
     component.tick$.subscribe((seconds: number) => {
       timingOutput.innerHTML = `<em>${seconds}</em>`;
     });
 
     Observable.fromEvent(btnStart, "click").subscribe(e => {
       console.info(`[Page] start`);
+
+      if (this.isComplete) {
+        messageOutput.innerHTML = "";
+        timingOutput.innerHTML = "";
+        this.isComplete = false;
+      }
+
       component.start();
     });
     Observable.fromEvent(btnPause, "click").subscribe(e => {

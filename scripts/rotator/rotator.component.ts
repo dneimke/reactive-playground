@@ -1,5 +1,5 @@
 import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { ScrollTimer } from "./scroll-timer";
 import { IRotatorMessage } from "./rotator-message";
 
@@ -10,6 +10,10 @@ export class RotatorComponent {
 
   public selectedMessage$ = new Subject<IRotatorMessage>();
   public tick$ = new Subject<number>();
+  public completed$ = new Subject<{}>();
+
+  private timerComplete$: Subscription;
+  private timerTick$: Subscription;
 
   constructor(private list: IRotatorMessage[]) {
     if (!list || list.length == 0) {
@@ -30,20 +34,29 @@ export class RotatorComponent {
     this.selectedMessage$.next(message);
 
     if (!this.timer) {
+      console.info(
+        "[RotatorComponent] creating new ScrollTimer",
+        message.start,
+        message.end
+      );
+
       this.timer = new ScrollTimer(message.start, message.end);
     }
 
-    this.timer.complete$.subscribe(() => {
+    this.timerComplete$ = this.timer.complete$.subscribe(() => {
       this.selectedIndex++;
       console.info("[RotatorComponent] handle complete", this.selectedIndex);
       if (this.selectedIndex < this.list.length) {
         const message = this.list[this.selectedIndex];
         this.selectedMessage$.next(message);
         this.timer.nextMessage(message);
+      } else {
+        this.selectedIndex = 0;
+        this.completed$.next();
       }
     });
 
-    this.timer.tick$.subscribe(n => {
+    this.timerTick$ = this.timer.tick$.subscribe(n => {
       this.tick$.next(n);
     });
 
@@ -52,6 +65,8 @@ export class RotatorComponent {
   }
 
   pause(): void {
+    this.timerComplete$.unsubscribe();
+    this.timerTick$.unsubscribe();
     this.timer.pause();
     this._isPlaying = false;
   }
@@ -60,7 +75,10 @@ export class RotatorComponent {
     this.timer.stop();
     this.selectedIndex = 0;
     this._isPlaying = false;
+    this.timerComplete$.unsubscribe();
+    this.timerTick$.unsubscribe();
     this.timer = undefined;
+    this.completed$.next();
   }
 
   back(): void {

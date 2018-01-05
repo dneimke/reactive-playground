@@ -55,8 +55,10 @@ export class ScrollTimer {
       `[ScrollTimer] create subscription`,
       this.current,
       this.lower,
-      this.upper
+      this.upper,
+      this.subscription
     );
+
     this.subscription = this.source.subscribe({
       next(n: number) {
         const currentSeconds = n + 1;
@@ -76,6 +78,7 @@ export class ScrollTimer {
   public pause(): void {
     console.info("[ScrollTimer] pause");
     this.subscription.unsubscribe();
+    this.subscription = undefined;
     this.isPaused = true;
   }
 
