@@ -17,11 +17,11 @@ export class RotatorExample {
     const btnNext = document.getElementById("btnNext") as HTMLButtonElement;
 
     const items: IRotatorMessage[] = [
-      { content: "Message 1", start: 0, end: 5, duration: 5 },
-      { content: "Message 2", start: 20, end: 23, duration: 3 },
-      { content: "Message 3", start: 31, end: 35, duration: 4 },
-      { content: "Message 4", start: 47, end: 55, duration: 8 },
-      { content: "Message 5", start: 59, end: 61, duration: 2 }
+      { content: "Clip 1", start: 0, end: 5, duration: 5 },
+      { content: "Clip 2", start: 20, end: 23, duration: 3 },
+      { content: "Clip 3", start: 31, end: 35, duration: 4 },
+      { content: "Clip 4", start: 47, end: 55, duration: 8 },
+      { content: "Clip 5", start: 59, end: 61, duration: 2 }
     ];
 
     const component = new RotatorComponent(items);
