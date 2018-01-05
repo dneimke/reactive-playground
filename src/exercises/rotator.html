@@ -15,27 +15,81 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
         crossorigin="anonymous">
+
+    <style>
+        .panel {
+            margin-right: 10px;
+            margin-bottom: 5px;
+            width: 80%;
+            height: 120px;
+            padding: 6px;
+            background: #bada55;
+            color: #193549;
+            border-radius: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .sidebar {
+            background: #bada55;
+            margin-right: 8px;
+            padding: 7px;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Rotator Component</h1>
+        <h1>Clip Viewer</h1>
 
         <p>
             This page uses a component to model a timer to display a list of messages for a given duration.
         </p>
 
-        <button id="btnStart">Start</button>
-        <button id="btnPause">Pause</button>
-        <button id="btnStop">Stop</button>
-        <button id="btnPrevious">Previous</button>
-        <button id="btnNext">Next</button>
-
         <div class="container">
-            <div id='messageOutput'></div>
-            <p>
-                <samp id="timingOutput"></samp>
-            </p>
+            <div class="row">
+                <div class='col-md-2 sidebar'>
+                    <ul>
+                        <li>
+                            Message 1
+                            <span style='margin-right: 5px' id='msg1'></span>
+                        </li>
+                        <li>
+                            Message 2
+                            <span style='margin-right: 5px' id='msg2'></span>
+                        </li>
+                        <li>
+                            Message 3
+                            <span style='margin-right: 5px' id='msg3'></span>
+                        </li>
+                        <li>
+                            Message 4
+                            <span style='margin-right: 5px' id='msg4'></span>
+                        </li>
+                        <li>
+                            Message 5
+                            <span style='margin-right: 5px' id='msg5'></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class='col-md-8'>
+                    <div class='panel'>
+                        <h2 id='messageOutput'></h2>
+                    </div>
+                    <div>
+                        <button id="btnStart">Start</button>
+                        <button id="btnPause">Pause</button>
+                        <button id="btnStop">Stop</button>
+                        <button id="btnPrevious">Previous</button>
+                        <button id="btnNext">Next</button>
+                    </div>
+                    <p>
+                        <span style="margin-right: 6px;">Timer:</span>
+                        <samp id="timingOutput"></samp>
+                    </p>
+                </div>
+            </div>
+
         </div>
 
     </div>

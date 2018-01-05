@@ -8,7 +8,7 @@ export class RotatorComponent {
   private selectedIndex = 0;
   private timer: ScrollTimer;
 
-  public selectedMessage$ = new Subject<IRotatorMessage>();
+  public selectedMessage$ = new Subject<any>(); // {IRotatorMessage, number}
   public tick$ = new Subject<number>();
   public completed$ = new Subject<{}>();
 
@@ -31,7 +31,7 @@ export class RotatorComponent {
   start(): void {
     console.info(`[RotatorComponent] start`);
     const message = this.list[this.selectedIndex];
-    this.selectedMessage$.next(message);
+    this.selectedMessage$.next({ message, selectedIndex: this.selectedIndex });
 
     if (!this.timer) {
       console.info(
@@ -48,7 +48,10 @@ export class RotatorComponent {
       console.info("[RotatorComponent] handle complete", this.selectedIndex);
       if (this.selectedIndex < this.list.length) {
         const message = this.list[this.selectedIndex];
-        this.selectedMessage$.next(message);
+        this.selectedMessage$.next({
+          message,
+          selectedIndex: this.selectedIndex
+        });
         this.timer.nextMessage(message);
       } else {
         this.selectedIndex = 0;

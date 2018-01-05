@@ -26,11 +26,21 @@ export class RotatorExample {
 
     const component = new RotatorComponent(items);
 
-    component.selectedMessage$.subscribe((message: IRotatorMessage) => {
+    component.selectedMessage$.subscribe((args: any) => {
       messageOutput.innerHTML = `
-            <em>${message.content}</em>
-            <p>Start: ${message.start}; End: ${message.end}</p>
+            <em>${args.message.content}</em>
         `;
+
+      let selectedIndex = args.selectedIndex + 1;
+      console.info("[RotatorExample] selectedMessage$ ", args);
+      for (let i = 1; i <= 5; i++) {
+        const txt = selectedIndex === i ? "*" : "";
+        let el = document.getElementById(`msg${i}`);
+        el.innerText = txt;
+        console.info(el);
+      }
+
+      // <p>Start: ${message.start}; End: ${message.end}</p>
 
       timingOutput.innerHTML = `<em>${0}</em>`;
     });
