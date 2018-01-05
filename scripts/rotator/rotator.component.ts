@@ -68,34 +68,78 @@ export class RotatorComponent {
   }
 
   pause(): void {
-    this.timerComplete$.unsubscribe();
-    this.timerTick$.unsubscribe();
+    if (!this.timerComplete$.closed) {
+      this.timerComplete$.unsubscribe();
+    }
+
+    if (!this.timerTick$.closed) {
+      this.timerTick$.unsubscribe();
+    }
+
     this.timer.pause();
     this._isPlaying = false;
   }
 
   stop(): void {
-    this.timer.stop();
+    if (this._isPlaying) {
+      this.timer.stop();
+    }
+
     this.selectedIndex = 0;
     this._isPlaying = false;
-    this.timerComplete$.unsubscribe();
-    this.timerTick$.unsubscribe();
+
+    if (!this.timerComplete$.closed) {
+      this.timerComplete$.unsubscribe();
+    }
+
+    if (!this.timerTick$.closed) {
+      this.timerTick$.unsubscribe();
+    }
     this.timer = undefined;
     this.completed$.next();
   }
 
   back(): void {
-    if (this.canMoveBack) {
-      this.selectedIndex = this.isPlaying
-        ? this.selectedIndex
-        : this.selectedIndex - 1;
+    if (this._isPlaying) {
+      this.timer.stop();
     }
-    this.timer.stop();
+
+    if (this.canMoveBack) {
+      this.selectedIndex--;
+    }
+
+    this._isPlaying = false;
+    if (!this.timerComplete$.closed) {
+      this.timerComplete$.unsubscribe();
+    }
+
+    if (!this.timerTick$.closed) {
+      this.timerTick$.unsubscribe();
+    }
+    this.timer = undefined;
+
+    this.start();
   }
 
   next(): void {
-    this.selectedIndex++;
-    this.timer.stop();
+    if (this._isPlaying) {
+      this.timer.stop();
+    }
+
+    if (this.canMoveForward) {
+      this.selectedIndex++;
+    }
+
+    this._isPlaying = false;
+    if (!this.timerComplete$.closed) {
+      this.timerComplete$.unsubscribe();
+    }
+
+    if (!this.timerTick$.closed) {
+      this.timerTick$.unsubscribe();
+    }
+    this.timer = undefined;
+
     this.start();
   }
 
